@@ -30,15 +30,10 @@ This project implements a secure, event-driven backend service designed to handl
 aws-cloud-ecosystem/
 ├── .github/
 │   └── workflows/
-│       └── deploy.yml       # Automated CI/CD & Security Scan pipeline
-├── src/
-│   └── lambda/
-│       └── index.py         # Python handler for API processing
-├── terraform/
-│   ├── main.tf              # Backend configuration & provider settings
-│   ├── api_gateway.tf       # API Gateway routes and integrations
-│   ├── dynamodb.tf          # DynamoDB table definitions
-│   ├── iam.tf               # Least-privilege IAM roles and execution policies
-│   ├── lambda.tf            # Lambda function provisioning and zip packaging
-│   └── outputs.tf           # Exported API endpoint URLs
-└── README.md
+│       └── deploy.yml       # Automated CI/CD pipeline configuration
+├── api_gateway.tf           # API Gateway routes, integrations, and permissions
+├── dynamodb.tf              # DynamoDB table definitions (`user-ratings`)
+├── lambda.tf                # Lambda function provisioning and zip packaging
+├── main.tf                  # Backend configuration, provider settings, and IAM roles
+├── lambda.zip               # Deployment package containing Python handler logic
+└── .terraform.lock.hcl      # Terraform provider dependency lock file
