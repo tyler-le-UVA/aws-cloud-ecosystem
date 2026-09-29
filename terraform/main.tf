@@ -10,11 +10,9 @@ terraform {
     bucket  = "duple-tf-state-998877" # (Or whatever unique name you used)
     key     = "prod/terraform.tfstate"
     region  = "us-east-1"
-    profile = "duple-dev" # <-- Add this line right here
   }
 }
 
 provider "aws" {
   region  = "us-east-1"
-  profile = "duple-dev"
 }
