@@ -1,0 +1,47 @@
+name: "Deploy Infrastructure to AWS"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    name: "Terraform Deploy"
+    runs-on: ubuntu-latest
+    
+    # Permissions required for OIDC or AWS credential exchange
+    permissions:
+      contents: read
+
+    steps:
+      # 1. Checkout your repository code onto the GitHub runner
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Set up Terraform CLI on the runner
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # 3. Configure AWS Credentials using GitHub Secrets (we will add these next)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      # 4. Initialize Terraform (pulls state from S3)
+      - name: Terraform Init
+        working-directory: ./terraform
+        run: terraform init
+
+      # 5. Validate Terraform syntax
+      - name: Terraform Validate
+        working-directory: ./terraform
+        run: terraform validate
+
+      # 6. Apply the changes automatically on push to main
+      - name: Terraform Apply
+        working-directory: ./terraform
+        run: terraform apply -auto-approve
